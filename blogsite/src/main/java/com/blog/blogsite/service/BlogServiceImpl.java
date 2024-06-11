@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.blog.blogsite.exception.ResourceNotFoundException;
 import com.blog.blogsite.mongo.BlogModel;
+import com.blog.blogsite.mongo.InputModel;
 import com.blog.blogsite.repository.BlogModelRepository;
 
 @Service
@@ -19,8 +20,16 @@ public class BlogServiceImpl implements BlogService {
     private BlogModelRepository blogModelRepository;
 
     @Override
-    public BlogModel createBlogModel(BlogModel blogModel) {
-        return blogModelRepository.save(blogModel);
+    public BlogModel createBlogModel(InputModel blogModel) {
+        List<BlogModel> bm=this.blogModelRepository.findAll();
+        BlogModel inp= new BlogModel();
+
+        inp.setId(bm.size()+1);
+        inp.setAuthor(blogModel.getAuthor());
+        inp.setTitle(blogModel.getTitle());
+        inp.setDescription(blogModel.getDescription());
+                
+        return blogModelRepository.save(inp);
     }
 
     @Override
@@ -30,7 +39,6 @@ public class BlogServiceImpl implements BlogService {
 
         if (blogModelDb.isPresent()) {
             BlogModel productUpdate = blogModelDb.get();
-            productUpdate.setId(blogModel.getId());
             productUpdate.setAuthor(blogModel.getAuthor());
             productUpdate.setTitle(blogModel.getTitle());
             productUpdate.setDescription(blogModel.getDescription());

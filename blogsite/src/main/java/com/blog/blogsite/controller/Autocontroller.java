@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.blogsite.mongo.BlogModel;
+import com.blog.blogsite.mongo.InputModel;
 import com.blog.blogsite.service.BlogService;
 
 @RestController
@@ -32,7 +33,7 @@ public class Autocontroller {
     }
 
     @PostMapping("/blogs")
-    public ResponseEntity <BlogModel> createBlog(@RequestBody BlogModel blogModel){
+    public ResponseEntity <BlogModel> createBlog(@RequestBody InputModel blogModel){
         return ResponseEntity.ok().body(this.blogService.createBlogModel(blogModel));
     }
 
